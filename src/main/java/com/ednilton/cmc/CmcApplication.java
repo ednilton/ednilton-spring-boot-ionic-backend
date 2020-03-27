@@ -4,8 +4,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.ednilton.cmc.domain.Categoria;
+import com.ednilton.cmc.domain.Cidade;
+import com.ednilton.cmc.domain.Estado;
 import com.ednilton.cmc.domain.Produto;
 import com.ednilton.cmc.repositories.CategoriaRepository;
+import com.ednilton.cmc.repositories.CidadeRepository;
+import com.ednilton.cmc.repositories.EstadoRepository;
 import com.ednilton.cmc.repository.ProdutoRepository;
 
 import java.util.Arrays;
@@ -21,6 +25,12 @@ public class CmcApplication implements CommandLineRunner{
 	
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private EstadoRepository estadoRepository;
+	
+	@Autowired
+	private CidadeRepository cidadeRepository;
 	
 	
 	public static void main(String[] args) {
@@ -44,9 +54,22 @@ public class CmcApplication implements CommandLineRunner{
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
 		
-		
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
+		
+		// Instanciando Estado e Cidades
+		Estado est1 = new Estado(null, "Minas Gerais");
+		Estado est2 = new Estado(null, "São Paulo");
+		Cidade c1 = new Cidade(null, "Uberlândia", est1);
+		Cidade c2 = new Cidade(null, "São Paulo", est2);
+		Cidade c3 = new Cidade(null, "Campinas", est2);
+		
+		// Adicionando Estado adicionando cidades a sua lista.
+		est1.getCidades().addAll(Arrays.asList(c1));
+		est2.getCidades().addAll(Arrays.asList(c2, c3));// Estate SP adding Campinas, São Paulo 
+		
+		estadoRepository.saveAll(Arrays.asList(est1, est2));
+		cidadeRepository.saveAll(Arrays.asList(c1,c2, c3));
 	}
 	
 
