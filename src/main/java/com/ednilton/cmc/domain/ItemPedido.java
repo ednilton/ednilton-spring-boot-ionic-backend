@@ -5,11 +5,14 @@ package com.ednilton.cmc.domain;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity 
 public class ItemPedido {
 	
 	//private static final long serialVersionUID = 1L;
 
+	@JsonIgnore
 	@EmbeddedId // armazena os ids da tupla
 	private ItemPedidoPk id = new ItemPedidoPk();
 	private Double desconto;
@@ -31,9 +34,11 @@ public class ItemPedido {
 		this.preco = preco;
 	}
 
+	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
+	
 	
 	public Produto getProduto() {
 		return id.getProduto();
