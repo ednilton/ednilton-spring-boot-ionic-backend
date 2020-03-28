@@ -4,16 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Generated;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import org.hibernate.annotations.ManyToAny;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -22,7 +19,7 @@ public class Produto implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id
+	@javax.persistence.Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;

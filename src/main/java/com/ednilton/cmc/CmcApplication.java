@@ -8,15 +8,23 @@ import com.ednilton.cmc.domain.Cidade;
 import com.ednilton.cmc.domain.Cliente;
 import com.ednilton.cmc.domain.Endereco;
 import com.ednilton.cmc.domain.Estado;
+import com.ednilton.cmc.domain.Pagamento;
+import com.ednilton.cmc.domain.PagamentoComBoleto;
+import com.ednilton.cmc.domain.PagamentoComCartao;
+import com.ednilton.cmc.domain.Pedido;
 import com.ednilton.cmc.domain.Produto;
+import com.ednilton.cmc.domain.enums.EstadoPagamento;
 import com.ednilton.cmc.domain.enums.TipoCliente;
 import com.ednilton.cmc.repositories.CategoriaRepository;
 import com.ednilton.cmc.repositories.CidadeRepository;
 import com.ednilton.cmc.repositories.ClienteRepository;
 import com.ednilton.cmc.repositories.EnderecoRepository;
 import com.ednilton.cmc.repositories.EstadoRepository;
+import com.ednilton.cmc.repositories.PagamentoRepository;
+import com.ednilton.cmc.repositories.PedidoRepository;
 import com.ednilton.cmc.repositories.ProdutoRepository;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +50,14 @@ public class CmcApplication implements CommandLineRunner{
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	
+	@Autowired 
+	PagamentoRepository pagamentoRepository;
+	
+	
 
 	
 	
@@ -96,6 +112,18 @@ public class CmcApplication implements CommandLineRunner{
 		
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pagto2);
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 		
 	}
 	
