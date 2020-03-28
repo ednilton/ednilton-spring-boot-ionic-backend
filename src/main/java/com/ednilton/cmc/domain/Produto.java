@@ -14,7 +14,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -31,7 +30,7 @@ public class Produto implements Serializable{
 			
 	// 1 - Association N / N: 1 product has many Category's
 	// 2 - It allows access to the Category list to be only once
-	@JsonBackReference // 2
+	@JsonIgnore
 	@ManyToMany // 1 
 	@JoinTable(name = "PRODUTO_CATEGORIA", 
 	joinColumns = @JoinColumn(name = "produto_id"),

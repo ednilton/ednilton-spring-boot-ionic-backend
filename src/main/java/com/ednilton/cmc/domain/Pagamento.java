@@ -10,7 +10,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.ednilton.cmc.domain.enums.EstadoPagamento;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -22,7 +22,7 @@ public abstract class Pagamento implements Serializable{
 	private Integer id;
 	private Integer estado;
 
-	@JsonBackReference
+	@JsonIgnore
 	@OneToOne // because this relationship is Id's Pagamento / Pedido it's same.
 	@JoinColumn(name="pedido_id")
 	@MapsId // makes the JPA guarantee the same id when building the table in db.

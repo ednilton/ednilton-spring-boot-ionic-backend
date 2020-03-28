@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity
 public class Categoria implements Serializable{
 	
@@ -24,7 +22,7 @@ public class Categoria implements Serializable{
 	// 1 - Association N:Product to N: Categories 
 	// 2 - Annotation for cyclic references: Product and Category stay in loop;
 	// 2 - This annotation is the next to the class that establishes the association.
-	@JsonManagedReference // 2 
+	
 	@ManyToMany(mappedBy="categorias") // 1
 	private List<Produto> produtos = new ArrayList<>();
 	
@@ -62,11 +60,7 @@ public class Categoria implements Serializable{
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
-	
-	
-
-	
-	
+		
 	@Override
 	public int hashCode() {
 		final int prime = 31;

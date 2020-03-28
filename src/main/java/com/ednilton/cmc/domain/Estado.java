@@ -9,7 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Estado implements Serializable{
@@ -21,7 +21,7 @@ public class Estado implements Serializable{
 	private Integer id;
 	private String  nome;
 	
-	@JsonBackReference // Stop a cyclic reference
+	@JsonIgnore // Stop a cyclic reference
 	@OneToMany(mappedBy="estado") 	// One to Many - One State has many Cities
 	private List<Cidade> cidades = new ArrayList<>();
 	
