@@ -9,6 +9,7 @@ import com.ednilton.cmc.repositories.CategoriaRepository;
 import com.ednilton.cmc.services.exceptions.DataIntegrityException;
 import com.ednilton.cmc.services.exceptions.ObjectNotFoundException;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -68,7 +69,9 @@ public class CategoriaService {
 		}
 	}
 	
-	
+	public List<Categoria> findAll(){
+		return repo.findAll();
+	}
 	
 	
 	
