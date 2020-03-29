@@ -1,10 +1,12 @@
 package com.ednilton.cmc.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.ednilton.cmc.domain.Categoria;
 import com.ednilton.cmc.repositories.CategoriaRepository;
+import com.ednilton.cmc.services.exceptions.DataIntegrityException;
 import com.ednilton.cmc.services.exceptions.ObjectNotFoundException;
 
 import java.util.Optional;
@@ -56,7 +58,15 @@ public class CategoriaService {
 	}
 	
 	
-	
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos");
+		}
+	}
 	
 	
 	
