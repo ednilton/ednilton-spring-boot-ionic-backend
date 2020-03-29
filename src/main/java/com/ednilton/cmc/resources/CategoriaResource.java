@@ -34,14 +34,14 @@ import com.ednilton.cmc.services.CategoriaService;
 	 * @return
 	 */
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		Categoria obj = service.find(id);		
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	
 	/**
-	 * Insert Method
+	 * Insert Method 
 	 * @param obj
 	 * @return uri
 	 */
@@ -52,6 +52,40 @@ import com.ednilton.cmc.services.CategoriaService;
 				path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
+	
+	/**
+	 * Method Update
+	 * @return
+	 */
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
+		obj.setId(id);
+		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

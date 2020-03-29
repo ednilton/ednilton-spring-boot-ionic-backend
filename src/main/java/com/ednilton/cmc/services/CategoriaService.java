@@ -47,5 +47,26 @@ public class CategoriaService {
 		return repo.save(obj);
 	}
 	
+	/**
+	 * Method Update
+	 */
+	public Categoria update(Categoria obj) {
+		find(obj.getId());
+		return repo.save(obj);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
