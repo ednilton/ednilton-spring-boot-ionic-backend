@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.ednilton.cmc.domain.Categoria;
+import com.ednilton.cmc.dto.CategoriaDTO;
 import com.ednilton.cmc.repositories.CategoriaRepository;
 import com.ednilton.cmc.services.exceptions.DataIntegrityException;
 import com.ednilton.cmc.services.exceptions.ObjectNotFoundException;
@@ -61,7 +62,10 @@ public class CategoriaService {
 		return repo.save(obj);
 	}
 	
-	
+	/**
+	 * Delete
+	 * @param id
+	 */
 	public void delete(Integer id) {
 		find(id);
 		try {
@@ -72,22 +76,36 @@ public class CategoriaService {
 		}
 	}
 	
+	
+	/**
+	 * All Categories
+	 * @return
+	 */
 	public List<Categoria> findAll(){
 		return repo.findAll();
 	}
 	
-
+	/**
+	 * Controla a paginação
+	 * @param page
+	 * @param linesPerPage
+	 * @param orderBy
+	 * @param direction
+	 * @return
+	 */
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page,  linesPerPage, Direction.valueOf(direction), orderBy); 
 		return repo.findAll(pageRequest);
 	}
 	
-	
-	
-	
-	
-	
-	
+	/**
+	 * 
+	 * @param objDto
+	 * @return
+	 */
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
+	}
 	
 	
 	
