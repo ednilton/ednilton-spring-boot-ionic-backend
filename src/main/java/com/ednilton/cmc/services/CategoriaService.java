@@ -70,7 +70,7 @@ public class CategoriaService {
 	public void delete(Integer id) {
 		find(id);
 		try {
-			repo.deleteById(id);
+			repo.deleteById(id); 
 		}
 		catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos");

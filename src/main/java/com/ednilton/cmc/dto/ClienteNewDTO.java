@@ -10,8 +10,7 @@ import org.hibernate.validator.constraints.Length;
 import com.ednilton.cmc.services.validation.ClienteInsert;
 
 @ClienteInsert
-public class ClienteNewDTO implements Serializable{
-	
+public class ClienteNewDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@NotEmpty(message="Preenchimento obrigatório")
@@ -21,7 +20,10 @@ public class ClienteNewDTO implements Serializable{
 	@NotEmpty(message="Preenchimento obrigatório")
 	@Email(message="Email inválido")
 	private String email;
+	
+	@NotEmpty(message="Preenchimento obrigatório")
 	private String cpfOuCnpj;
+	
 	private Integer tipo;
 	
 	@NotEmpty(message="Preenchimento obrigatório")
@@ -30,8 +32,8 @@ public class ClienteNewDTO implements Serializable{
 	@NotEmpty(message="Preenchimento obrigatório")
 	private String numero;
 	
-	private String complemento;
 	
+	private String complemento;
 	private String bairro;
 	
 	@NotEmpty(message="Preenchimento obrigatório")
@@ -41,8 +43,11 @@ public class ClienteNewDTO implements Serializable{
 	private String telefone1;
 	private String telefone2;
 	private String telefone3;
-	
+
 	private Integer cidadeId;
+	
+	public ClienteNewDTO() {
+	}
 
 	public String getNome() {
 		return nome;
@@ -147,7 +152,4 @@ public class ClienteNewDTO implements Serializable{
 	public void setCidadeId(Integer cidadeId) {
 		this.cidadeId = cidadeId;
 	}
-	
-	
-	
 }

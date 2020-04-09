@@ -2,16 +2,13 @@ package com.ednilton.cmc.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ednilton.cmc.domain.Cliente;
 
-/**
- * Camada de acesso a Dados do tipo Cliente
- * @author ednilton
- *
- */
-
 @Repository
-public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
+public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
+	@Transactional(readOnly=true)
+	Cliente findByEmail(String email);
 }

@@ -1,5 +1,6 @@
 package com.ednilton.cmc.services;
 
+	
 import java.util.List;
 import java.util.Optional;
 
@@ -17,47 +18,33 @@ import com.ednilton.cmc.domain.Endereco;
 import com.ednilton.cmc.domain.enums.TipoCliente;
 import com.ednilton.cmc.dto.ClienteDTO;
 import com.ednilton.cmc.dto.ClienteNewDTO;
-import com.ednilton.cmc.repositories.CidadeRepository;
 import com.ednilton.cmc.repositories.ClienteRepository;
 import com.ednilton.cmc.repositories.EnderecoRepository;
 import com.ednilton.cmc.services.exceptions.DataIntegrityException;
 import com.ednilton.cmc.services.exceptions.ObjectNotFoundException;
 
-
-/**
- * This class throws an exception if the object is not found.
- * It must be requested by the CategoryResources layer, the Rest layer.
- * 
- * @author ednilton
- * checked
- */
-
 @Service
 public class ClienteService {
-
-	// injection dependency or control inversion
+	
 	@Autowired
 	private ClienteRepository repo;
-	@Autowired
-	private CidadeRepository cidadeRepository;
+	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
-	
 	
 	public Cliente find(Integer id) {
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
-		"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
 	
 	@Transactional
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
 		obj = repo.save(obj);
-		enderecoRepository.saveAll(obj.getEndereco());
+		enderecoRepository.saveAll(obj.getEnderecos());
 		return obj;
 	}
-
 	
 	public Cliente update(Cliente obj) {
 		Cliente newObj = find(obj.getId());
@@ -65,55 +52,46 @@ public class ClienteService {
 		return repo.save(newObj);
 	}
 
-	
 	public void delete(Integer id) {
 		find(id);
 		try {
 			repo.deleteById(id);
 		}
 		catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Não é possível excluir o cliente porque há pedidos relacionados");
+			throw new DataIntegrityException("Não é possível excluir porque há entidades relacionadas");
 		}
 	}
-
 	
 	public List<Cliente> findAll() {
 		return repo.findAll();
 	}
-
 	
 	public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
 	}
-
 	
 	public Cliente fromDTO(ClienteDTO objDto) {
 		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null);
 	}
 	
-	
 	public Cliente fromDTO(ClienteNewDTO objDto) {
-		Cliente cli  = new Cliente(null , objDto.getNome(),objDto.getEmail(),objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipo()));
-		Cidade cid = cidadeRepository.getOne(objDto.getCidadeId());
-		Endereco end = new Endereco(null, objDto.getLogradouro(),objDto.getNumero(), objDto.getComplemento(), objDto.getBairro(), objDto.getCep(), cli, cid);
-		cli.getEndereco().add(end);
+		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipo()));
+		Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
+		Endereco end = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(), objDto.getBairro(), objDto.getCep(), cli, cid);
+		cli.getEnderecos().add(end);
 		cli.getTelefones().add(objDto.getTelefone1());
-		if (objDto.getTelefone2()!= null) {
+		if (objDto.getTelefone2()!=null) {
 			cli.getTelefones().add(objDto.getTelefone2());
 		}
-		if (objDto.getTelefone3()!= null) {
+		if (objDto.getTelefone3()!=null) {
 			cli.getTelefones().add(objDto.getTelefone3());
 		}
 		return cli;
 	}
-
 	
 	private void updateData(Cliente newObj, Cliente obj) {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
 	}
-	
 }
-	
-
